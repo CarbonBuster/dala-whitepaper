@@ -24,5 +24,7 @@
         * [Intermediaries](README.md#soko-architecture-intermediaries)
         * [Reputation](README.md#soko-architecture-reputation)
         * [Staking](README.md#soko-architecture-staking)
+    * [Specification](README.md#soko-specification)
+        * [Overview](README.md#soko-specification-overview)
 * [Kazi](README.md#kazi)
 * [Kopa](README.md#kopa)
