@@ -365,6 +365,77 @@
             
         </li>
     
+        <li class="chapter " data-level="1.3.2" data-path="./">
+            
+                <a href="./#soko-architecture">
+            
+                    
+                    Architecture
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="./">
+            
+                <a href="./#soko-architecture-end-users">
+            
+                    
+                    End Users
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.2" data-path="./">
+            
+                <a href="./#soko-architecture-intermediaries">
+            
+                    
+                    Intermediaries
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.3" data-path="./">
+            
+                <a href="./#soko-architecture-reputation">
+            
+                    
+                    Reputation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.4" data-path="./">
+            
+                <a href="./#soko-architecture-staking">
+            
+                    
+                    Staking
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
             </ul>
             
@@ -533,7 +604,26 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <p>Soko means <em>market</em> in Swahili.</p>
 </blockquote>
 <h3 id="introduction">Introduction<div id="soko-introduction"></div></h3>
-<p>Soko is a decentralized and trustless marketplace for products and services. The Soko protocol defines a procedure for defining, administering, buying, and selling products and services using a set of smart contracts and standardized interfaces. Soko has been heavily inspired in design by the 0x decentralized exchange protocol and the Dharma decentralized lending protocol.</p>
+<p>Soko is a decentralized and trustless marketplace for products and services. </p>
+<h3 id="architecture">Architecture<div id="soko-architecture"></div></h3>
+<p>The Soko protocol defines a procedure for defining, administering, buying, and selling products and services using a set of smart contracts and standardized interfaces. Soko has been heavily inspired in design by the 0x decentralized exchange protocol and the Dharma decentralized lending protocol.</p>
+<p><strong>End Users</strong><div id="soko-architecture-end-users"></div></p>
+<p>The end users of Soko are the entities looking to purhcase or provide services. These entities can be people, corporations, contracts, or systems and are separated into two categories:</p>
+<ol>
+<li><strong>Provider -</strong> a party in a market transaction who is providing a service or product for a pre-determined and cryptographically agreed to amount.</li>
+<li><strong>Consumer -</strong> a party in a marketplace transaction who is purchasing a service or product for the specified amount. </li>
+</ol>
+<p><strong>Intermediaries</strong><div id="soko-architecture-intermediaries"></div></p>
+<p>Intermediaries are entities who provide additional services to the protocol. There are two categories of intermediaries:</p>
+<ol>
+<li><strong>Reviewers -</strong> a trusted entity or entities that collect market-determined fees for ensuring that service providers fulfill the offer that they have committed to. Reviewers may be people, contracts, or systems but commit to verifying the authenticity of a cryptographically signed confirmation from a service provider that the transaction has been completed as advertised. The nature of this verification will depend on the product or service being offered and the available mechanisms for verification. Importantly, <em>n</em> reviewers may be determined necessary to ensure the release of funds from escrow to a service provider.</li>
+<li><strong>Relayers -</strong> relayers in Soko aggregate signed marketplace offers, and for an agreed fee, host the messages in a centralized marketplace and provide consumers the ability to purchase the services,. Relayers should further commit to offering the products and services with the highest reputation and have freedom to exclude services whose service delivery is questionable or non-existent based on reviewers and consumers attestations.</li>
+</ol>
+<p><strong>Reputation</strong><div id="soko-architecture-reputation"></div></p>
+<p>The reputation score is used to indicate relative reliability of consumers, providers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of a provider or reviewer to fulfill their role as defined by the protocol.</p>
+<p><strong>Staking</strong><div id="soko-architecture-staking"></div></p>
+<p>Providers and reviewers may be required to stake $DALA before they can participate in the market. Staking amounts are determined based on a number of factors, such as the value of the product being offered and the reputation of the entity.</p>
+<p><strong>Contracts</strong><div id="soko-architecture-contracts"></div></p>
 <h2 id="kazi">Kazi</h2>
 <h2 id="kopa">Kopa</h2>
 
@@ -575,7 +665,7 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-18T10:35:02.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-18T09:55:30.397Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-18T12:37:02.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-18T09:55:30.397Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

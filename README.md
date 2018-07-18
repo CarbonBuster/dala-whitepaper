@@ -113,8 +113,33 @@ Dala will initially only support atomic swaps between Dala ERC20 tokens on Ether
 ## Soko
 > Soko means *market* in Swahili.
 
-###Introduction<div id="soko-introduction">
-Soko is a decentralized and trustless marketplace for products and services. The Soko protocol defines a procedure for defining, administering, buying, and selling products and services using a set of smart contracts and standardized interfaces. Soko has been heavily inspired in design by the 0x decentralized exchange protocol and the Dharma decentralized lending protocol.
+### Introduction<div id="soko-introduction">
+Soko is a decentralized and trustless marketplace for products and services. 
+
+### Architecture<div id="soko-architecture">
+The Soko protocol defines a procedure for defining, administering, buying, and selling products and services using a set of smart contracts and standardized interfaces. Soko has been heavily inspired in design by the 0x decentralized exchange protocol and the Dharma decentralized lending protocol.
+
+**End Users**<div id="soko-architecture-end-users">
+
+The end users of Soko are the entities looking to purhcase or provide services. These entities can be people, corporations, contracts, or systems and are separated into two categories:
+1. **Provider -** a party in a market transaction who is providing a service or product for a pre-determined and cryptographically agreed to amount.
+2. **Consumer -** a party in a marketplace transaction who is purchasing a service or product for the specified amount. 
+
+**Intermediaries**<div id="soko-architecture-intermediaries">
+
+Intermediaries are entities who provide additional services to the protocol. There are two categories of intermediaries:
+1. **Reviewers -** a trusted entity or entities that collect market-determined fees for ensuring that service providers fulfill the offer that they have committed to. Reviewers may be people, contracts, or systems but commit to verifying the authenticity of a cryptographically signed confirmation from a service provider that the transaction has been completed as advertised. The nature of this verification will depend on the product or service being offered and the available mechanisms for verification. Importantly, *n* reviewers may be determined necessary to ensure the release of funds from escrow to a service provider.
+2. **Relayers -** relayers in Soko aggregate signed marketplace offers, and for an agreed fee, host the messages in a centralized marketplace and provide consumers the ability to purchase the services,. Relayers should further commit to offering the products and services with the highest reputation and have freedom to exclude services whose service delivery is questionable or non-existent based on reviewers and consumers attestations.
+
+**Reputation**<div id="soko-architecture-reputation">
+
+The reputation score is used to indicate relative reliability of consumers, providers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of a provider or reviewer to fulfill their role as defined by the protocol.
+
+**Staking**<div id="soko-architecture-staking">
+
+Providers and reviewers may be required to stake $DALA before they can participate in the market. Staking amounts are determined based on a number of factors, such as the value of the product being offered and the reputation of the entity.
+
+**Contracts**<div id="soko-architecture-contracts">
 
 ## Kazi
 
