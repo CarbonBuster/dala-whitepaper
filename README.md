@@ -1,6 +1,6 @@
 <center>
-    <h1>Dala: A decentralized financial ecosystem for emerging markets</h1>
-    <h2 id="abstract">Abstract</h2>
+    <h1 id="dala">Dala: A decentralized financial ecosystem for emerging markets</h1>
+    <h2 id="dala-abstract">Abstract</h2>
 </center>
 <div style="text-align: justify; width: 600px; margin: 0 auto;">
 Dala is a cryptocurrency that can be used for payments of any size, nearly instantaneously, and at almost zero cost. It’s very nature of being a cryptocurrency means it is borderless, and thus facilitates remittance transactions by its very nature. But Dala is more than that. It is the cornerstone of a financial services platform that has been designed to help those in most need of it - the financially excluded. This platform is global; bridging the divide between investors and consumers; creating opportunities for philanthropists, lenders, insurers, and most importantly, the financially excluded consumers.
@@ -108,9 +108,13 @@ Dala will be launching **Toa**, which encompasses the smart contracts (on both t
 Dala will initially only support atomic swaps between Dala ERC20 tokens on Ethereum and $DALA assets on Stellar. $DALA assets issued by the Dala foundation on Stellar can only enter circulation when atomically swapped from Ethereum. 
 
 ### Architecture<div id="toa-architecture">
-![](https://s3-us-west-2.amazonaws.com/dharma-assets/WhitepaperV2Architecture.png)
+![](https://github.com/GetDala/dala-whitepaper/raw/master/images/dala-toa.png)
 
 ## Soko
+> Soko means *market* in Swahili.
+
+###Introduction<div id="soko-introduction">
+Soko is a decentralized and trustless marketplace for products and services. The Soko protocol defines a procedure for defining, administering, buying, and selling products and services using a set of smart contracts and standardized interfaces. Soko has been heavily inspired in design by the 0x decentralized exchange protocol and the Dharma decentralized lending protocol.
 
 ## Kazi
 

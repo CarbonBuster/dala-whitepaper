@@ -1,5 +1,7 @@
 # Summary
 
+* [Dala](README.md#dala)
+    * [Abstract](README.md#dala-abstract)
 * [Toa](README.md#toa)
     * [Introduction](README.md#toa-introduction)
     * [Stellar](README.md#toa-stellar)
@@ -16,5 +18,6 @@
         * [$DALA Atomic Swaps](README.md#toa-atomic-swaps-dala)
     * [Architecture](README.md#toa-architecture)
 * [Soko](README.md#soko)
+    * [Introduction](README.md#soko-introduction)
 * [Kazi](README.md#kazi)
 * [Kopa](README.md#kopa)
