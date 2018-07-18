@@ -139,7 +139,8 @@ The reputation score is used to indicate relative reliability of consumers, prov
 
 Providers and reviewers may be required to stake $DALA before they can participate in the market. Staking amounts are determined based on a number of factors, such as the value of the product being offered and the reputation of the entity.
 
-**Contracts**<div id="soko-architecture-contracts">
+### Specification<div id="soko-specification">
+![](https://github.com/GetDala/dala-whitepaper/raw/master/images/dala-soko-decentralized-marketplace.png)
 
 ## Kazi
 
