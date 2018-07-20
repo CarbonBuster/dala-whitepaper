@@ -463,6 +463,64 @@
             
         </li>
     
+        <li class="chapter " data-level="1.3.3.2" data-path="./">
+            
+                <a href="./#soko-specification-stellar">
+            
+                    
+                    Stellar
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.2.1" data-path="./">
+            
+                <a href="./#soko-specification-stellar-register-provider">
+            
+                    
+                    Register as Provider
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.2" data-path="./">
+            
+                <a href="./#soko-specification-stellar-register-reviewer">
+            
+                    
+                    Register as Reviewer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.3" data-path="./">
+            
+                <a href="./#soko-specification-stellar-create-product">
+            
+                    
+                    Create Product
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
             </ul>
             
@@ -649,15 +707,31 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <p>Intermediaries are entities who provide additional services to the protocol. There are two categories of intermediaries:</p>
 <ol>
 <li><strong>Reviewers -</strong> a trusted entity or entities that collect market-determined fees for ensuring that service providers fulfill the offer that they have committed to. Reviewers may be people, contracts, or systems but commit to verifying the authenticity of a cryptographically signed confirmation from a service provider that the transaction has been completed as advertised. The nature of this verification will depend on the product or service being offered and the available mechanisms for verification. Importantly, <em>n</em> reviewers may be determined necessary to ensure the release of funds from escrow to a service provider.</li>
-<li><strong>Relayers -</strong> relayers in Soko aggregate signed marketplace offers, and for an agreed fee, host the messages in a centralized marketplace and provide consumers the ability to purchase the services,. Relayers should further commit to offering the products and services with the highest reputation and have freedom to exclude services whose service delivery is questionable or non-existent based on reviewers and consumers attestations.</li>
+<li><strong>Relayers -</strong> relayers in Soko aggregate signed marketplace offers, and for an agreed fee, host the messages in a centralized marketplace and provide consumers the ability to purchase the services,. Relayers should further commit to offering the products and services with the highest reputation and have freedom to exclude services whose service delivery is questionable or non-existent based on reviewers and consumers attestations. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the <a href="https://github.com/0xProject/0x-relayer-registry" target="_blank">0x relayer registry</a>) </li>
+<li><strong>Administrators -</strong> administrators in Soko allow the registration of providers and reviewers, and the creation of signed marketplace offers by providers. Administrators provide the ability for providers to capture product information, create a custom asset representing the product, and sign and store additional metadata in IPFS - the hash of which is attached to the transaction that creates the asset. Soko will provide an administrator dApp on launch. To facilitate administrator discovery, a list of community approved administrators will be maintained on Github (similar to the <a href="https://github.com/0xProject/0x-relayer-registry" target="_blank">0x relayer registry</a>) </li>
 </ol>
 <p><strong>Reputation</strong><div id="soko-architecture-reputation"></div></p>
 <p>The reputation score is used to indicate relative reliability of consumers, providers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of a provider or reviewer to fulfill their role as defined by the protocol.</p>
 <p><strong>Staking</strong><div id="soko-architecture-staking"></div></p>
 <p>Providers and reviewers may be required to stake $DALA before they can participate in the market. Staking amounts are determined based on a number of factors, such as the value of the product being offered and the reputation of the entity.</p>
 <h3 id="specification">Specification<div id="soko-specification"></div></h3>
-<p><strong>Overview</strong><div id="soko-specification-overview">
-<img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/dala-soko-decentralized-marketplace.png" alt=""></div></p>
+<h4 id="overview">Overview<div id="soko-specification-overview"></div></h4>
+<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-register-provider.png" alt=""></p>
+<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-register-reviewer.png" alt=""></p>
+<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-reviewer-escrow.png" alt=""></p>
+<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-provider-relayer-escrow.png" alt=""></p>
+<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-product.png" alt=""></p>
+<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-product-purchase.png" alt=""></p>
+<h4 id="stellar">Stellar<div id="soko-specification-stellar"></div></h4>
+<p>Soko will initially be built on the Stellar blockchain. The primary reason for this is that Soko will provide a high-throughput market and the fees should be as low as possible and the transaction speed as fast as possible to facilitate these purchases. There is a worthy sacrifice of the turing-completeness of Ethereum for the speed and cost of Stellar, especially given that the market can be easily defined as sets of atomic operations that play very well with the smart contracting capability of Stellar.</p>
+<p><strong>Register as Provider</strong><div id="soko-specification-stellar-register-provider"></div></p>
+<p><strong>Register as Reviewer</strong><div id="soko-specification-stellar-register-reviewer"></div></p>
+<p><strong>Create Product</strong><div id="soko-specification-stellar-create-product"></div></p>
+<p>On Stellar, new products will be represented by a custom asset. This asset will represent an instance of the product, and depending on the type of product may take different forms (e.g. fixed supply, issued on demand, non-fungible, etc.)</p>
+<p><a href="https://ipfs.io" target="_blank">IPFS</a> will also be used extensively to store additional metadata about products that cannot be stored on-chain.</p>
+<p>Providers will create product definitions by interacting with a Soko <em>administrator</em> dApp. These product definitions encapsulate the core product information such as display name, description, images, price, fungibility, required fields, etc. It is the responsibility of the <em>administrators</em> to ensure that the information is captured correctly, and providers may provide links of where additional information can be looked up (such as valid options in a select) or information can be verified (such as the number of an electricity meter). These will be off-chain operations and will be left up to the relayer&apos;s and provider&apos;s discretion.</p>
+<p>Providers are advised, though not enforced, to provide an API to access an off-chain list of the products they offer. These products can be verified by relayers on-chain using the product transaction hashes.</p>
+<p>Soko <em>administrators</em> are also responsible for determining the number of reviewers required by a particular product offering. This is algorithmically determined based on provider reputation and product metadata.</p>
 <h2 id="kazi">Kazi</h2>
 <h2 id="kopa">Kopa</h2>
 
@@ -699,7 +773,7 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-18T13:43:25.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-18T09:55:30.397Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-20T15:12:48.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-18T09:55:30.397Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
