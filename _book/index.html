@@ -708,7 +708,7 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <p>Dala will be launching <strong>Toa</strong>, which encompasses the smart contracts (on both the Ethereum and Stellar blockchains) as well as a dApp.</p>
 <p>Dala will initially only support atomic swaps between Dala ERC20 tokens on Ethereum and $DALA assets on Stellar. $DALA assets issued by the Dala foundation on Stellar can only enter circulation when atomically swapped from Ethereum. </p>
 <h3 id="architecture">Architecture<div id="toa-architecture"></div></h3>
-<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/dala-toa.png" alt=""></p>
+<p><img src="images/dala-toa.png" alt=""></p>
 <h2 id="soko">Soko</h2>
 <blockquote>
 <p>Soko means <em>market</em> in Swahili.</p>
@@ -739,38 +739,38 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <p>Soko will initially be built on the Stellar blockchain. The primary reason for this is that Soko will provide a high-throughput market and the fees should be as low as possible and the transaction speed as fast as possible to facilitate these purchases. There is a worthy sacrifice of the turing-completeness of Ethereum for the speed and cost of Stellar, especially given that the market can be easily defined as sets of atomic operations that play very well with the smart contracting capability of Stellar.</p>
 <p><a href="https://ipfs.io" target="_blank">IPFS</a> will also be used extensively to store additional metadata about products that cannot be stored on-chain.</p>
 <h4 id="register-as-provider">Register as Provider<div id="soko-specification-register-provider"></div></h4>
-<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-register-provider.png" alt=""></p>
+<p><img src="images/soko-register-provider.png" alt=""></p>
 <ol>
 <li>To register as a provider, a provider asset ($SOKOPROVIDER) must be purchased. These assets are issued by Soko and will have a price in $DALA. Soko will offer $SOKOPROVIDER on the DEX. </li>
 <li>The provider must hold the asset at all times and this acts as a public indication that an account can provide products and has staked sufficient $DALA. At any point, the balance of $SOKOPROVIDER from the Soko issuer can be checked.</li>
 </ol>
 <h4 id="register-as-reviewer">Register as Reviewer<div id="soko-specification-register-reviewer"></div></h4>
-<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-register-reviewer.png" alt=""></p>
+<p><img src="images/soko-register-reviewer.png" alt=""></p>
 <ol>
 <li>Registering as a reviewer is the same process as described above for a provider except the asset being purchased a reviewer asset ($SOKOREVIEWER).</li>
 <li>The provider must hold the asset at all times and this acts as a public indication that an account can review purchases and has staked sufficient $DALA. At any point, the balance of $SOKOREVIEWER from the Soko issuer can be checked.</li>
 </ol>
 <h4 id="create-reviewer-escrow">Create Reviewer Escrow<div id="soko-specification-create-reviewer-escrow"></div></h4>
-<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-reviewer-escrow.png" alt=""></p>
+<p><img src="images/soko-create-reviewer-escrow.png" alt=""></p>
 <ol>
 <li>Providers must create an escrow account with the pool of reviewers that they will be working with. The escrow account is necessary in order to facilitate payment for review services rendered when a purchase takes place as the transaction to distribute the funds as to be prepared <em>before</em> the final reviewers of the transaction will be known.</li>
 <li>The provider should have no signing power (unless they are a reviewer themselves) and the master weight should be reduced to zero to ensure that the signatures of the minimum number of reviewers has been received. Soko remains agnostic to these numbers and it will determined between reviewers and providers in some way outside of the framework.</li>
 </ol>
 <h4 id="create-provider-relayer-escrow">Create Provider-Relayer Escrow<div id="soko-specification-create-provider-relayer-escrow"></div></h4>
-<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-provider-relayer-escrow.png" alt=""></p>
+<p><img src="images/soko-create-provider-relayer-escrow.png" alt=""></p>
 <ol>
 <li>As part of the <em>agreement</em> between providers and relayers, an escrow account will be created for all funds received from consumer purchases facilitated by relayers.</li>
 <li>A minimum of 3 reviewers, plus the provider&apos;s and relayer&apos;s signatures are required for any transaction on the escrow account <em>after</em> initial creation and funding. The relayer is responsible for the funding and creation of this account.</li>
 </ol>
 <h4 id="create-product">Create Product<div id="soko-specification-create-product"></div></h4>
-<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-product.png" alt=""></p>
+<p><img src="images/soko-create-product.png" alt=""></p>
 <ol>
 <li>Providers must first create the metadata that represents the new product. This product metadata should adhere to the <a href="https://github.com/GetDala/soko/blob/master/schemas/product.js" target="_blank">product schema</a> and provides sufficient information to describe product as well as external assets to display the product to consumers via the relayers. This metadata may also include additional service URLs to validate or verify information provided by the relayer (e.g. the number of an electricity meter).</li>
 <li>The product metadata is then stored on <a href="https://ipfs.io" target="_blank">IPFS</a> and the resultant hash is recorded.</li>
 <li>The provider creates a new asset representing the product. The IPFS hash is included as the memo of the create transaction.</li>
 </ol>
 <h4 id="purchase-product">Purchase Product<div id="soko-specification-purchase-product"></div></h4>
-<p><img src="https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-product-purchase.png" alt=""></p>
+<p><img src="images/soko-product-purchase.png" alt=""></p>
 <ol>
 <li>The consumer selects the product they wish to purchase using their chosen relayer.</li>
 <li>All required information is captured by the relayer as determined by the product metadata from the provider. This additional information should adhere to the <a href="https://github.com/GetDala/soko/blob/master/schemas/purchase.js" target="_blank">purchase schema</a> and provides all the required metadata for the provider to fulfil the purchase. This information is stored on <a href="https://ipfs.io" target="_blank">IPFS</a> and the resultant hash is recorded. </li>
@@ -830,7 +830,7 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-23T12:20:34.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-18T09:55:30.397Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-23T12:22:42.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-18T09:55:30.397Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
