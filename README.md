@@ -143,38 +143,61 @@ Providers and reviewers may be required to stake $DALA before they can participa
 ### Specification<div id="soko-specification">
 ####Overview<div id="soko-specification-overview">
 
-![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-register-provider.png)
-
-![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-register-reviewer.png)
-
-![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-reviewer-escrow.png)
-
-![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-provider-relayer-escrow.png)
-
-![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-product.png)
-
-![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-product-purchase.png)
-
-#### Stellar<div id="soko-specification-stellar">
-
 Soko will initially be built on the Stellar blockchain. The primary reason for this is that Soko will provide a high-throughput market and the fees should be as low as possible and the transaction speed as fast as possible to facilitate these purchases. There is a worthy sacrifice of the turing-completeness of Ethereum for the speed and cost of Stellar, especially given that the market can be easily defined as sets of atomic operations that play very well with the smart contracting capability of Stellar.
-
-**Register as Provider**<div id="soko-specification-stellar-register-provider">
-
-**Register as Reviewer**<div id="soko-specification-stellar-register-reviewer">
-
-**Create Product**<div id="soko-specification-stellar-create-product">
-
-On Stellar, new products will be represented by a custom asset. This asset will represent an instance of the product, and depending on the type of product may take different forms (e.g. fixed supply, issued on demand, non-fungible, etc.)
 
 [IPFS](https://ipfs.io) will also be used extensively to store additional metadata about products that cannot be stored on-chain.
 
-Providers will create product definitions by interacting with a Soko *administrator* dApp. These product definitions encapsulate the core product information such as display name, description, images, price, fungibility, required fields, etc. It is the responsibility of the *administrators* to ensure that the information is captured correctly, and providers may provide links of where additional information can be looked up (such as valid options in a select) or information can be verified (such as the number of an electricity meter). These will be off-chain operations and will be left up to the relayer's and provider's discretion.
+####Register as Provider<div id="soko-specification-register-provider">
+![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-register-provider.png)
 
-Providers are advised, though not enforced, to provide an API to access an off-chain list of the products they offer. These products can be verified by relayers on-chain using the product transaction hashes.
+1. To register as a provider, a provider asset ($SOKOPROVIDER) must be purchased. These assets are issued by Soko and will have a price in $DALA. Soko will offer $SOKOPROVIDER on the DEX. 
+2. The provider must hold the asset at all times and this acts as a public indication that an account can provide products and has staked sufficient $DALA. At any point, the balance of $SOKOPROVIDER from the Soko issuer can be checked.
 
-Soko *administrators* are also responsible for determining the number of reviewers required by a particular product offering. This is algorithmically determined based on provider reputation and product metadata.
+####Register as Reviewer<div id="soko-specification-register-reviewer">
+![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-register-reviewer.png)
 
-## Kazi
+1. Registering as a reviewer is the same process as described above for a provider except the asset being purchased a reviewer asset ($SOKOREVIEWER).
+2. The provider must hold the asset at all times and this acts as a public indication that an account can review purchases and has staked sufficient $DALA. At any point, the balance of $SOKOREVIEWER from the Soko issuer can be checked.
 
-## Kopa
+####Create Reviewer Escrow<div id="soko-specification-create-reviewer-escrow">
+![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-reviewer-escrow.png)
+
+1. Providers must create an escrow account with the pool of reviewers that they will be working with. The escrow account is necessary in order to facilitate payment for review services rendered when a purchase takes place as the transaction to distribute the funds as to be prepared *before* the final reviewers of the transaction will be known.
+2. The provider should have no signing power (unless they are a reviewer themselves) and the master weight should be reduced to zero to ensure that the signatures of the minimum number of reviewers has been received. Soko remains agnostic to these numbers and it will determined between reviewers and providers in some way outside of the framework.
+
+####Create Provider-Relayer Escrow<div id="soko-specification-create-provider-relayer-escrow">
+![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-provider-relayer-escrow.png)
+
+1. As part of the *agreement* between providers and relayers, an escrow account will be created for all funds received from consumer purchases facilitated by relayers.
+2. A minimum of 3 reviewers, plus the provider's and relayer's signatures are required for any transaction on the escrow account *after* initial creation and funding. The relayer is responsible for the funding and creation of this account.
+
+####Create Product<div id="soko-specification-create-product">
+![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-create-product.png)
+
+1. Providers must first create the metadata that represents the new product. This product metadata should adhere to the [product schema](https://github.com/GetDala/soko/blob/master/schemas/product.js) and provides sufficient information to describe product as well as external assets to display the product to consumers via the relayers. This metadata may also include additional service URLs to validate or verify information provided by the relayer (e.g. the number of an electricity meter).
+2. The product metadata is then stored on [IPFS](https://ipfs.io) and the resultant hash is recorded.
+3. The provider creates a new asset representing the product. The IPFS hash is included as the memo of the create transaction.
+
+####Purchase Product<div id="soko-specification-purchase-product">
+![](https://github.com/GetDala/dala-whitepaper/raw/master/images/soko-product-purchase.png)
+
+1. The consumer selects the product they wish to purchase using their chosen relayer.
+2. All required information is captured by the relayer as determined by the product metadata from the provider. This additional information should adhere to the [purchase schema](https://github.com/GetDala/soko/blob/master/schemas/purchase.js) and provides all the required metadata for the provider to fulfil the purchase. This information is stored on [IPFS](https://ipfs.io) and the resultant hash is recorded. 
+3. The consumer pays the required funds to the provider-relayer escrow account using the IPFS hash as the memo to the transaction.
+4. The provider should be monitoring the transaction activity on the escrow account. The provider should interrogate the incoming transaction using the IPFS hash to retrieve the transaction metadata. It is the providers responsibility to ensure that sufficient funds have been received for the selected product.
+5. The provider must deliver the product to the consumer. This is an off-chain process and can take many forms although we expect this to be mostly digital products such airtime, data, and other value added service products. The provider should store the resultant transaction proof on IPFS and record the hash.
+6. Next, the provider needs to prepare a transaction that must:
+    * Pay the consumer *n* product asssets (as was created [here](README.md#soko-specification-create-product))
+    * Pay the relayer the agreed upon amount
+    * Pay the reviewer escrow account (as was create [here](README.md#soko-specification-create-reviewer-escrow))
+    * Pay their own account the remaining value
+    * Add a memo that includes the IPFS hash of the proof of successful transaction.
+7. The provider then signs this transaction and creates a payload that should adhere to the [transaction schema](https://github.com/GetDala/soko/blob/master/schemas/transaction.js). This includes information about the required signers. Importantly, this transaction now needs to be broadcast to the other parties that needs to sign, and also done so in a reliable sequence to ensure each signature is correctly attached before submission to Stellar.
+8. Reviewer(s) sign the transaction if they are all satisfied with the content.
+9. The relayer signs the transaction if they are satisfied with the content. 
+
+
+
+##Kazi
+
+##Kopa
