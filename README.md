@@ -128,17 +128,16 @@ The end users of Soko are the entities looking to purhcase or provide services. 
 **Intermediaries**<div id="soko-architecture-intermediaries">
 
 Intermediaries are entities who provide additional services to the protocol. There are two categories of intermediaries:
-1. **Reviewers -** a trusted entity or entities that collect market-determined fees for ensuring that service providers fulfill the offer that they have committed to. Reviewers may be people, contracts, or systems but commit to verifying the authenticity of a cryptographically signed confirmation from a service provider that the transaction has been completed as advertised. The nature of this verification will depend on the product or service being offered and the available mechanisms for verification. Importantly, *n* reviewers may be determined necessary to ensure the release of funds from escrow to a service provider.
-2. **Relayers -** relayers in Soko aggregate signed marketplace offers, and for an agreed fee, host the messages in a centralized marketplace and provide consumers the ability to purchase the services,. Relayers should further commit to offering the products and services with the highest reputation and have freedom to exclude services whose service delivery is questionable or non-existent based on reviewers and consumers attestations. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry)) 
-3. **Administrators -** administrators in Soko allow the registration of providers and reviewers, and the creation of signed marketplace offers by providers. Administrators provide the ability for providers to capture product information, create a custom asset representing the product, and sign and store additional metadata in IPFS - the hash of which is attached to the transaction that creates the asset. Soko will provide an administrator dApp on launch. To facilitate administrator discovery, a list of community approved administrators will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry)) 
+1. **Relayers -** relayers in Soko aggregate signed marketplace offers, and for an agreed fee, host the messages in a centralized marketplace and provide consumers the ability to purchase the services,. Relayers should further commit to offering the products and services with the highest reputation and have freedom to exclude services whose service delivery is questionable or non-existent based on reviewers and consumers attestations. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry)) 
+2. **Administrators -** administrators in Soko allow the registration of providers and reviewers, and the creation of signed marketplace offers by providers. Administrators provide the ability for providers to capture product information, create a custom asset representing the product, and sign and store additional metadata in IPFS - the hash of which is attached to the transaction that creates the asset. Soko will provide an administrator dApp on launch. To facilitate administrator discovery, a list of community approved administrators will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry)) 
 
 **Reputation**<div id="soko-architecture-reputation">
 
-The reputation score is used to indicate relative reliability of consumers, providers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of a provider or reviewer to fulfill their role as defined by the protocol.
+The reputation score is used to indicate relative reliability of consumers, providers, and relayers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol.
 
 **Staking**<div id="soko-architecture-staking">
 
-Providers and reviewers may be required to stake $DALA before they can participate in the market. Staking amounts are determined based on a number of factors, such as the value of the product being offered and the reputation of the entity.
+Providers are required to stake $DALA before they can participate in the market. Staking takes the form of purchasing a $SOKOPROVIDER from the DEX.
 
 ### Specification<div id="soko-specification">
 ####Overview<div id="soko-specification-overview">
@@ -153,24 +152,6 @@ Soko will initially be built on the Stellar blockchain. The primary reason for t
 1. To register as a provider, a provider asset ($SOKOPROVIDER) must be purchased. These assets are issued by Soko and will have a price in $DALA. Soko will offer $SOKOPROVIDER on the DEX. 
 2. The provider must hold the asset at all times and this acts as a public indication that an account can provide products and has staked sufficient $DALA. At any point, the balance of $SOKOPROVIDER from the Soko issuer can be checked.
 
-####Register as Reviewer<div id="soko-specification-register-reviewer">
-![](images/soko-register-reviewer.png)
-
-1. Registering as a reviewer is the same process as described above for a provider except the asset being purchased a reviewer asset ($SOKOREVIEWER).
-2. The provider must hold the asset at all times and this acts as a public indication that an account can review purchases and has staked sufficient $DALA. At any point, the balance of $SOKOREVIEWER from the Soko issuer can be checked.
-
-####Create Reviewer Escrow<div id="soko-specification-create-reviewer-escrow">
-![](images/soko-create-reviewer-escrow.png)
-
-1. Providers must create an escrow account with the pool of reviewers that they will be working with. The escrow account is necessary in order to facilitate payment for review services rendered when a purchase takes place as the transaction to distribute the funds as to be prepared *before* the final reviewers of the transaction will be known.
-2. The provider should have no signing power (unless they are a reviewer themselves) and the master weight should be reduced to zero to ensure that the signatures of the minimum number of reviewers has been received. Soko remains agnostic to these numbers and it will determined between reviewers and providers in some way outside of the framework.
-
-####Create Provider-Relayer Escrow<div id="soko-specification-create-provider-relayer-escrow">
-![](images/soko-create-provider-relayer-escrow.png)
-
-1. As part of the *agreement* between providers and relayers, an escrow account will be created for all funds received from consumer purchases facilitated by relayers.
-2. A minimum of 3 reviewers, plus the provider's and relayer's signatures are required for any transaction on the escrow account *after* initial creation and funding. The relayer is responsible for the funding and creation of this account.
-
 ####Create Product<div id="soko-specification-create-product">
 ![](images/soko-create-product.png)
 
@@ -183,19 +164,29 @@ Soko will initially be built on the Stellar blockchain. The primary reason for t
 
 1. The consumer selects the product they wish to purchase using their chosen relayer.
 2. All required information is captured by the relayer as determined by the product metadata from the provider. This additional information should adhere to the [purchase schema](https://github.com/GetDala/soko/blob/master/schemas/purchase.js) and provides all the required metadata for the provider to fulfil the purchase. This information is stored on [IPFS](https://ipfs.io) and the resultant hash is recorded. 
-3. The consumer pays the required funds to the provider-relayer escrow account using the IPFS hash as the memo to the transaction.
+3. The consumer requests a new address from the provider. The provider should create a new escrow account requiring the relayer and the provider as signers.
+4. The consumer creates a recovery transaction:
+    * Pay the consumer the funds they paid for the goods.
+    * Have a time lock (default 24 hours from purchase).
+    * Merge account to provider account so that they get their Lumens back.
+    * This transaction must be signed by the relayer and the provider. 
+    * The signed transaction is then stored by the consumer for future use should they not receive their purchased goods or a refund within the lock up time.
+5. When the signed recovery transaction has been received and stored, the consumer pays the required funds to the provider-relayer escrow account using the IPFS hash as the memo to the transaction.
 4. The provider should be monitoring the transaction activity on the escrow account. The provider should interrogate the incoming transaction using the IPFS hash to retrieve the transaction metadata. It is the providers responsibility to ensure that sufficient funds have been received for the selected product.
 5. The provider must deliver the product to the consumer. This is an off-chain process and can take many forms although we expect this to be mostly digital products such airtime, data, and other value added service products. The provider should store the resultant transaction proof on IPFS and record the hash.
-6. Next, the provider needs to prepare a transaction that must:
-    * Pay the consumer *n* product asssets (as was created [here](README.md#soko-specification-create-product))
-    * Pay the relayer the agreed upon amount
-    * Pay the reviewer escrow account (as was create [here](README.md#soko-specification-create-reviewer-escrow))
-    * Pay their own account the remaining value
-    * Add a memo that includes the IPFS hash of the proof of successful transaction.
-7. The provider then signs this transaction and creates a payload that should adhere to the [transaction schema](https://github.com/GetDala/soko/blob/master/schemas/transaction.js). This includes information about the required signers. Importantly, this transaction now needs to be broadcast to the other parties that needs to sign, and also done so in a reliable sequence to ensure each signature is correctly attached before submission to Stellar.
-8. Reviewer(s) sign the transaction if they are all satisfied with the content.
-9. The relayer signs the transaction if they are satisfied with the content. 
-
+6. Based on the state of the product delivery to the customer, the provider *must* respond accordingly.
+    * If the provider transaction was successful, the provider needs to prepare a transaction that must:
+        * Pay the consumer *n* product asssets (as was created [here](README.md#soko-specification-create-product)).
+        * Pay the relayer the agreed upon amount.
+        * Pay their own account the remaining value.
+        * Add a memo that includes the IPFS hash of the proof of successful transaction.
+        * Merge account to the provider account so that they get their Lumens back.
+    * If the provider transaction failed, the provider needs to prepare a transaction that must:
+        * Pay the consumer their funds
+        * Merge the account to the provider account so that they get their Lumens back.
+    * The provider may choose to do nothing, in which case the consumer may claim their funds back after the time lock has expired.
+7. The provider then signs this transaction and stores the XDR in IPFS for signing by the relayer. 
+8. The relayer signs the transaction if they are satisfied with the content.
 
 
 ##Kazi

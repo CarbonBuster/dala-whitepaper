@@ -478,45 +478,6 @@
     
         <li class="chapter " data-level="1.3.3.3" data-path="./">
             
-                <a href="./#soko-specification-register-reviewer">
-            
-                    
-                    Register as Reviewer
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.3.3.4" data-path="./">
-            
-                <a href="./#soko-specification-create-reviewer-escrow">
-            
-                    
-                    Create Reviewer Escrow
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.3.3.5" data-path="./">
-            
-                <a href="./#soko-specification-create-provider-relayer-escrow">
-            
-                    
-                    Create Provider-Relayer Escrow
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.3.3.6" data-path="./">
-            
                 <a href="./#soko-specification-create-product">
             
                     
@@ -528,7 +489,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.3.7" data-path="./">
+        <li class="chapter " data-level="1.3.3.4" data-path="./">
             
                 <a href="./#soko-specification-purchase-product">
             
@@ -726,14 +687,13 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <p><strong>Intermediaries</strong><div id="soko-architecture-intermediaries"></div></p>
 <p>Intermediaries are entities who provide additional services to the protocol. There are two categories of intermediaries:</p>
 <ol>
-<li><strong>Reviewers -</strong> a trusted entity or entities that collect market-determined fees for ensuring that service providers fulfill the offer that they have committed to. Reviewers may be people, contracts, or systems but commit to verifying the authenticity of a cryptographically signed confirmation from a service provider that the transaction has been completed as advertised. The nature of this verification will depend on the product or service being offered and the available mechanisms for verification. Importantly, <em>n</em> reviewers may be determined necessary to ensure the release of funds from escrow to a service provider.</li>
 <li><strong>Relayers -</strong> relayers in Soko aggregate signed marketplace offers, and for an agreed fee, host the messages in a centralized marketplace and provide consumers the ability to purchase the services,. Relayers should further commit to offering the products and services with the highest reputation and have freedom to exclude services whose service delivery is questionable or non-existent based on reviewers and consumers attestations. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the <a href="https://github.com/0xProject/0x-relayer-registry" target="_blank">0x relayer registry</a>) </li>
 <li><strong>Administrators -</strong> administrators in Soko allow the registration of providers and reviewers, and the creation of signed marketplace offers by providers. Administrators provide the ability for providers to capture product information, create a custom asset representing the product, and sign and store additional metadata in IPFS - the hash of which is attached to the transaction that creates the asset. Soko will provide an administrator dApp on launch. To facilitate administrator discovery, a list of community approved administrators will be maintained on Github (similar to the <a href="https://github.com/0xProject/0x-relayer-registry" target="_blank">0x relayer registry</a>) </li>
 </ol>
 <p><strong>Reputation</strong><div id="soko-architecture-reputation"></div></p>
-<p>The reputation score is used to indicate relative reliability of consumers, providers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of a provider or reviewer to fulfill their role as defined by the protocol.</p>
+<p>The reputation score is used to indicate relative reliability of consumers, providers, and relayers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol.</p>
 <p><strong>Staking</strong><div id="soko-architecture-staking"></div></p>
-<p>Providers and reviewers may be required to stake $DALA before they can participate in the market. Staking amounts are determined based on a number of factors, such as the value of the product being offered and the reputation of the entity.</p>
+<p>Providers are required to stake $DALA before they can participate in the market. Staking takes the form of purchasing a $SOKOPROVIDER from the DEX.</p>
 <h3 id="specification">Specification<div id="soko-specification"></div></h3>
 <h4 id="overview">Overview<div id="soko-specification-overview"></div></h4>
 <p>Soko will initially be built on the Stellar blockchain. The primary reason for this is that Soko will provide a high-throughput market and the fees should be as low as possible and the transaction speed as fast as possible to facilitate these purchases. There is a worthy sacrifice of the turing-completeness of Ethereum for the speed and cost of Stellar, especially given that the market can be easily defined as sets of atomic operations that play very well with the smart contracting capability of Stellar.</p>
@@ -743,24 +703,6 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <ol>
 <li>To register as a provider, a provider asset ($SOKOPROVIDER) must be purchased. These assets are issued by Soko and will have a price in $DALA. Soko will offer $SOKOPROVIDER on the DEX. </li>
 <li>The provider must hold the asset at all times and this acts as a public indication that an account can provide products and has staked sufficient $DALA. At any point, the balance of $SOKOPROVIDER from the Soko issuer can be checked.</li>
-</ol>
-<h4 id="register-as-reviewer">Register as Reviewer<div id="soko-specification-register-reviewer"></div></h4>
-<p><img src="images/soko-register-reviewer.png" alt=""></p>
-<ol>
-<li>Registering as a reviewer is the same process as described above for a provider except the asset being purchased a reviewer asset ($SOKOREVIEWER).</li>
-<li>The provider must hold the asset at all times and this acts as a public indication that an account can review purchases and has staked sufficient $DALA. At any point, the balance of $SOKOREVIEWER from the Soko issuer can be checked.</li>
-</ol>
-<h4 id="create-reviewer-escrow">Create Reviewer Escrow<div id="soko-specification-create-reviewer-escrow"></div></h4>
-<p><img src="images/soko-create-reviewer-escrow.png" alt=""></p>
-<ol>
-<li>Providers must create an escrow account with the pool of reviewers that they will be working with. The escrow account is necessary in order to facilitate payment for review services rendered when a purchase takes place as the transaction to distribute the funds as to be prepared <em>before</em> the final reviewers of the transaction will be known.</li>
-<li>The provider should have no signing power (unless they are a reviewer themselves) and the master weight should be reduced to zero to ensure that the signatures of the minimum number of reviewers has been received. Soko remains agnostic to these numbers and it will determined between reviewers and providers in some way outside of the framework.</li>
-</ol>
-<h4 id="create-provider-relayer-escrow">Create Provider-Relayer Escrow<div id="soko-specification-create-provider-relayer-escrow"></div></h4>
-<p><img src="images/soko-create-provider-relayer-escrow.png" alt=""></p>
-<ol>
-<li>As part of the <em>agreement</em> between providers and relayers, an escrow account will be created for all funds received from consumer purchases facilitated by relayers.</li>
-<li>A minimum of 3 reviewers, plus the provider&apos;s and relayer&apos;s signatures are required for any transaction on the escrow account <em>after</em> initial creation and funding. The relayer is responsible for the funding and creation of this account.</li>
 </ol>
 <h4 id="create-product">Create Product<div id="soko-specification-create-product"></div></h4>
 <p><img src="images/soko-create-product.png" alt=""></p>
@@ -774,20 +716,37 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <ol>
 <li>The consumer selects the product they wish to purchase using their chosen relayer.</li>
 <li>All required information is captured by the relayer as determined by the product metadata from the provider. This additional information should adhere to the <a href="https://github.com/GetDala/soko/blob/master/schemas/purchase.js" target="_blank">purchase schema</a> and provides all the required metadata for the provider to fulfil the purchase. This information is stored on <a href="https://ipfs.io" target="_blank">IPFS</a> and the resultant hash is recorded. </li>
-<li>The consumer pays the required funds to the provider-relayer escrow account using the IPFS hash as the memo to the transaction.</li>
-<li>The provider should be monitoring the transaction activity on the escrow account. The provider should interrogate the incoming transaction using the IPFS hash to retrieve the transaction metadata. It is the providers responsibility to ensure that sufficient funds have been received for the selected product.</li>
-<li>The provider must deliver the product to the consumer. This is an off-chain process and can take many forms although we expect this to be mostly digital products such airtime, data, and other value added service products. The provider should store the resultant transaction proof on IPFS and record the hash.</li>
-<li>Next, the provider needs to prepare a transaction that must:<ul>
-<li>Pay the consumer <em>n</em> product asssets (as was created <a href="./#soko-specification-create-product">here</a>)</li>
-<li>Pay the relayer the agreed upon amount</li>
-<li>Pay the reviewer escrow account (as was create <a href="./#soko-specification-create-reviewer-escrow">here</a>)</li>
-<li>Pay their own account the remaining value</li>
-<li>Add a memo that includes the IPFS hash of the proof of successful transaction.</li>
+<li>The consumer requests a new address from the provider. The provider should create a new escrow account requiring the relayer and the provider as signers.</li>
+<li>The consumer creates a recovery transaction:<ul>
+<li>Pay the consumer the funds they paid for the goods.</li>
+<li>Have a time lock (default 24 hours from purchase).</li>
+<li>Merge account to provider account so that they get their Lumens back.</li>
+<li>This transaction must be signed by the relayer and the provider. </li>
+<li>The signed transaction is then stored by the consumer for future use should they not receive their purchased goods or a refund within the lock up time.</li>
 </ul>
 </li>
-<li>The provider then signs this transaction and creates a payload that should adhere to the <a href="https://github.com/GetDala/soko/blob/master/schemas/transaction.js" target="_blank">transaction schema</a>. This includes information about the required signers. Importantly, this transaction now needs to be broadcast to the other parties that needs to sign, and also done so in a reliable sequence to ensure each signature is correctly attached before submission to Stellar.</li>
-<li>Reviewer(s) sign the transaction if they are all satisfied with the content.</li>
-<li>The relayer signs the transaction if they are satisfied with the content. </li>
+<li>When the signed recovery transaction has been received and stored, the consumer pays the required funds to the provider-relayer escrow account using the IPFS hash as the memo to the transaction.</li>
+<li>The provider should be monitoring the transaction activity on the escrow account. The provider should interrogate the incoming transaction using the IPFS hash to retrieve the transaction metadata. It is the providers responsibility to ensure that sufficient funds have been received for the selected product.</li>
+<li>The provider must deliver the product to the consumer. This is an off-chain process and can take many forms although we expect this to be mostly digital products such airtime, data, and other value added service products. The provider should store the resultant transaction proof on IPFS and record the hash.</li>
+<li>Based on the state of the product delivery to the customer, the provider <em>must</em> respond accordingly.<ul>
+<li>If the provider transaction was successful, the provider needs to prepare a transaction that must:<ul>
+<li>Pay the consumer <em>n</em> product asssets (as was created <a href="./#soko-specification-create-product">here</a>).</li>
+<li>Pay the relayer the agreed upon amount.</li>
+<li>Pay their own account the remaining value.</li>
+<li>Add a memo that includes the IPFS hash of the proof of successful transaction.</li>
+<li>Merge account to the provider account so that they get their Lumens back.</li>
+</ul>
+</li>
+<li>If the provider transaction failed, the provider needs to prepare a transaction that must:<ul>
+<li>Pay the consumer their funds</li>
+<li>Merge the account to the provider account so that they get their Lumens back.</li>
+</ul>
+</li>
+<li>The provider may choose to do nothing, in which case the consumer may claim their funds back after the time lock has expired.</li>
+</ul>
+</li>
+<li>The provider then signs this transaction and stores the XDR in IPFS for signing by the relayer. </li>
+<li>The relayer signs the transaction if they are satisfied with the content.</li>
 </ol>
 <h2 id="kazi">Kazi</h2>
 <h2 id="kopa">Kopa</h2>
@@ -830,7 +789,7 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-23T12:22:42.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-18T09:55:30.397Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-23T14:19:18.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-23T14:36:42.225Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
