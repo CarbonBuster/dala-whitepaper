@@ -250,8 +250,26 @@ Kazi will initially be built on the Stellar blockchain. This facilitates the fas
 1. To register as a requester, a requester asset ($KAZIREQUESTER) must be purchased. These assets are issued by Kazi and will have a price in $DALA. Kazi will offer $KAZIREQUESTER on the DEX.
 2. The requester must hold the asset at all times and this acts as a public indication that an account can request work and has staked $DALA.
 
+####Register Reviewer<div id="kazi-specification-register-reviewer">
+
 ####Create Job<div id="kazi-specification-create-job">
 ![](images/kazi-create-job.png)
+
+1. The requester creates the job definition using a reliable administrator dApp. This metadata should adhere to the [job schema](https://github.com/GetDala/kazi/blob/master/schemas/job.js) and provide sufficient information to describe the job to workers via the relayers. This metadata may include additional URLs to describe other aspects of the job being defined (e.g. image annotation will have to include the URL of the image to be annotated).
+2. The job metadata is then stored on [IPFS](https://ipfs.io) and the resultant hash is recorded.
+3. The requester must then create an asset that represents this job. The IPFS hash is included as the memo of the create transaction.
+<!-- 4. This job asset is then offered on the DEX at a $DALA price. This means that workers have to stake funds to participate. This is a preventative measure against bad actors that may want to lock up all jobs where supply is limited. -->
+
+####Share Job<div id="kazi-specification-share-job">
+![](images/kazi-share-job.png)
+
+Signed job offers need to be distributed to relayers so that they can be offered to interested workers. The actual mechanics of sharing this information is not defined by the protocol, however, the required outputs of the operation are.
+1. The requester must create an escrow account with the relayer with equally weighted signing power between them. 
+
+
+1. The requester will create an escrow account with both relayer and requester as signers, equally weighted.
+2. The requester will create a recovery transaction to close and merge the account. This transaction must be signed by the relayer. The requester will keep this transaction securely and it is to be used if the relayer no longer signs payment transactions or the requester would like to stop offering this job with this relayer and is a preventative measure to ensure funds are not locked up and inaccessible.
+3. 
 
 ####Work<div id="kazi-specification-work">
 
