@@ -775,19 +775,6 @@
     
         <li class="chapter " data-level="1.5.3.3" data-path="./">
             
-                <a href="./#kazi-specification-register-reviewer">
-            
-                    
-                    Register Reviewer
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.5.3.4" data-path="./">
-            
                 <a href="./#kazi-specification-create-job">
             
                     
@@ -799,7 +786,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.3.5" data-path="./">
+        <li class="chapter " data-level="1.5.3.4" data-path="./">
             
                 <a href="./#kazi-speicification-share-job">
             
@@ -812,38 +799,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.3.6" data-path="./">
+        <li class="chapter " data-level="1.5.3.5" data-path="./">
             
                 <a href="./#kazi-specification-work">
             
                     
                     Work
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.5.3.7" data-path="./">
-            
-                <a href="./#kazi-specification-review">
-            
-                    
-                    Review
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.5.3.8" data-path="./">
-            
-                <a href="./#kazi-specification-get-paid">
-            
-                    
-                    Get Paid
             
                 </a>
             
@@ -1155,7 +1116,7 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <h4 id="intermediaries">Intermediaries<div id="kazi-architecture-intermediaries"></div></h4>
 <p>Intermediaries are entities who provide additional services to the protocol. There are three categories of intermediaries:</p>
 <ol>
-<li><strong>Relayers -</strong> relayers in Kazi aggregate signed job requests, and for an agreed fee, host the requests in a centralized marketplace and provide workers the ability to fulfill the jobs. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the <a href="https://github.com/0xProject/0x-relayer-registry" target="_blank">0x relayer registry</a>)</li>
+<li><strong>Relayers -</strong> relayers in Kazi aggregate signed job requests, and for an agreed fee, host the requests in a centralized marketplace and provide workers the ability to fulfill the jobs and reviewers the ability to verify the completed work. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the <a href="https://github.com/0xProject/0x-relayer-registry" target="_blank">0x relayer registry</a>)</li>
 <li><strong>Reviewers -</strong> a trusted entity or entities that collect market-determined fees for ensuring that workers fulfill the request that they have committed to. Reviewers may be people, contracts, or systems but commit to verifying the authenticity of a cryptographically signed confirmation from a worker that the job has been completed as requested. The nature of this verification will depend on the job and the available mechanisms for verification. Importantly, <em>n</em> reviewers may be determined necessary to ensure the release of funds from escrow to a worker.</li>
 <li><strong>Administrators -</strong> administrators in Kazi allow the registration of requesters and reviewers and allow the creation of signed job offers. They provide the ability for requesters to capture job information, create a custom asset representing the job, and sign and store additional metadata in IPFS - the hash of which is attached to the transaction that creates the  asset. To facilitate administrator discovery, a list of community approved administrators will be maintained on Github (similar to the <a href="https://github.com/0xProject/0x-relayer-registry" target="_blank">0x relayer registry</a>)</li>
 </ol>
@@ -1171,31 +1132,56 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
 <li>To register as a requester, a requester asset ($KAZIREQUESTER) must be purchased. These assets are issued by Kazi and will have a price in $DALA. Kazi will offer $KAZIREQUESTER on the DEX.</li>
 <li>The requester must hold the asset at all times and this acts as a public indication that an account can request work and has staked $DALA.</li>
 </ol>
-<h4 id="register-reviewer">Register Reviewer<div id="kazi-specification-register-reviewer"></div></h4>
 <h4 id="create-job">Create Job<div id="kazi-specification-create-job"></div></h4>
 <p><img src="images/kazi-create-job.png" alt=""></p>
 <ol>
 <li>The requester creates the job definition using a reliable administrator dApp. This metadata should adhere to the <a href="https://github.com/GetDala/kazi/blob/master/schemas/job.js" target="_blank">job schema</a> and provide sufficient information to describe the job to workers via the relayers. This metadata may include additional URLs to describe other aspects of the job being defined (e.g. image annotation will have to include the URL of the image to be annotated).</li>
 <li>The job metadata is then stored on <a href="https://ipfs.io" target="_blank">IPFS</a> and the resultant hash is recorded.</li>
-<li>The requester must then create an asset that represents this job. The IPFS hash is included as the memo of the create transaction.<!-- 4. This job asset is then offered on the DEX at a $DALA price. This means that workers have to stake funds to participate. This is a preventative measure against bad actors that may want to lock up all jobs where supply is limited. -->
-</li>
+<li>The requester must then create an asset that represents this job. The IPFS hash is included as the memo of the create transaction.</li>
 </ol>
 <h4 id="share-job">Share Job<div id="kazi-specification-share-job"></div></h4>
 <p><img src="images/kazi-share-job.png" alt=""></p>
 <p>Signed job offers need to be distributed to relayers so that they can be offered to interested workers. The actual mechanics of sharing this information is not defined by the protocol, however, the required outputs of the operation are.</p>
 <ol>
 <li>The requester must create an escrow account with the relayer with equally weighted signing power between them. </li>
-</ol>
-<ol>
-<li>The requester will create an escrow account with both relayer and requester as signers, equally weighted.</li>
 <li>The requester will create a recovery transaction to close and merge the account. This transaction must be signed by the relayer. The requester will keep this transaction securely and it is to be used if the relayer no longer signs payment transactions or the requester would like to stop offering this job with this relayer and is a preventative measure to ensure funds are not locked up and inaccessible.</li>
-<li></li>
+<li>The requester must send sufficient funds to the escrow account (e.g. if the requester has 300 jobs at 10 $DALA each and has agreed to pay the relayer 1% fee, then the requester must send 3030 $DALA to the account).</li>
+<li>The relayer is now incentivised to offer these jobs to workers on their dApp.</li>
 </ol>
 <h4 id="work">Work<div id="kazi-specification-work"></div></h4>
-<h4 id="review">Review<div id="kazi-specification-review"></div></h4>
-<h4 id="get-paid">Get Paid<div id="kazi-specification-get-paid"></div></h4>
+<p><img src="images/kazi-work.png" alt=""></p>
+<ol>
+<li>Workers interact with relayer dApps to complete jobs. Because the fee models incentivise the relayer, the relayers with the best experience <em>should</em> win the most workers. There is limited financial incentive that can be offered to workers to use different relayers as the fee is paid by the requester, however, in order for a worker to claim a job they do need to purchase a job asset. The price of these assets is determined by the requester and can be dependent on a number of external factors relevant to the requester. In the dApp, this cost would be for the worker and can act as a kind of staking mechanism to prevent bad actors that may want to lock up all the jobs. There is definitely opportunity here for relayers to reduce these costs for the workers and is probably a race to zero.</li>
+<li>Once a worker has acquired a job asset, they must complete the task as defined. </li>
+<li>When the job is complete, the worker needs to prepare the job result payload. This must adhere to the <a href="https://github.com/GetDala/kazi/blob/master/schemas/job-result.js" target="_blank">job result schema</a> and includes the job result as an encrypted payload, and an encrypted hash to be used for signing. This must be uploaded to IPFS and the hash recorded.</li>
+<li>The worker sends the job asset to the requester-relayer escrow account with the IPFS hash as a memo.</li>
+<li>The requester monitors this account and when this payment is seen, creates a new escrow account with selected reviewers (reviewer selection is an opinionated process that the protocol remains agnostic of), relayer, and the worker provided hash as signers (the hash must be retrieved from IPFS).</li>
+<li>The requester must create a time-locked recovery transaction to close and merge this account should sufficient approval not be received in time.</li>
+<li>The requester must now a transaction that must:<ol>
+<li>Send payment to worker.</li>
+<li>Send payment to relayer.</li>
+<li>Send payment to reviewer escrow.</li>
+</ol>
+</li>
+<li>This transaction should be signed by the requester and stored on IPFS.</li>
+<li>The relayer needs to be made aware of this transaction. The relayer will confirm the transaction is correct and sign it. This newly signed transaction will be shared with the worker.</li>
+<li>The worker must now sign the job using the preimage that was used to encrypt the payload in step 3. This is now public and reviewers and requester will now have access to the secret used to encrypt the payload.</li>
+<li>The newly signed transaction is now broadcast to the reviewers. They now have the ability to check the result of the job and if they approve of the content, can sign the transaction.</li>
+<li>When a sufficient threshold has been reached, the transaction is broadcast on-chain and all parties receive payment.</li>
+</ol>
 <h3 id="use-cases">Use Cases<div id="kazi-use-cases"></div></h3>
+<ul>
+<li>Surveys</li>
+<li>Image annotation and classification</li>
+<li>Secret shopper</li>
+<li>Information Gathering</li>
+<li>SEO research</li>
+</ul>
 <h3 id="attacks-and-limitations">Attacks and Limitations<div id="kazi-attacks-limitations"></div></h3>
+<ul>
+<li>Requester and reviewers working together</li>
+<li>Worker and reviewers working together</li>
+</ul>
 <h2 id="kopa">Kopa</h2>
 
                                 
@@ -1236,7 +1222,7 @@ Dala is a cryptocurrency that can be used for payments of any size, nearly insta
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-25T14:45:45.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-24T14:25:20.807Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-26T13:39:53.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-24T14:25:20.807Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

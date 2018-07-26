@@ -230,7 +230,7 @@ End users of Kazi are the entities looking to have work done or fulfill work. Th
 ####Intermediaries<div id="kazi-architecture-intermediaries">
 
 Intermediaries are entities who provide additional services to the protocol. There are three categories of intermediaries:
-1. **Relayers -** relayers in Kazi aggregate signed job requests, and for an agreed fee, host the requests in a centralized marketplace and provide workers the ability to fulfill the jobs. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry))
+1. **Relayers -** relayers in Kazi aggregate signed job requests, and for an agreed fee, host the requests in a centralized marketplace and provide workers the ability to fulfill the jobs and reviewers the ability to verify the completed work. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry))
 2. **Reviewers -** a trusted entity or entities that collect market-determined fees for ensuring that workers fulfill the request that they have committed to. Reviewers may be people, contracts, or systems but commit to verifying the authenticity of a cryptographically signed confirmation from a worker that the job has been completed as requested. The nature of this verification will depend on the job and the available mechanisms for verification. Importantly, *n* reviewers may be determined necessary to ensure the release of funds from escrow to a worker.
 3. **Administrators -** administrators in Kazi allow the registration of requesters and reviewers and allow the creation of signed job offers. They provide the ability for requesters to capture job information, create a custom asset representing the job, and sign and store additional metadata in IPFS - the hash of which is attached to the transaction that creates the  asset. To facilitate administrator discovery, a list of community approved administrators will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry))
 
@@ -250,35 +250,50 @@ Kazi will initially be built on the Stellar blockchain. This facilitates the fas
 1. To register as a requester, a requester asset ($KAZIREQUESTER) must be purchased. These assets are issued by Kazi and will have a price in $DALA. Kazi will offer $KAZIREQUESTER on the DEX.
 2. The requester must hold the asset at all times and this acts as a public indication that an account can request work and has staked $DALA.
 
-####Register Reviewer<div id="kazi-specification-register-reviewer">
-
 ####Create Job<div id="kazi-specification-create-job">
 ![](images/kazi-create-job.png)
 
 1. The requester creates the job definition using a reliable administrator dApp. This metadata should adhere to the [job schema](https://github.com/GetDala/kazi/blob/master/schemas/job.js) and provide sufficient information to describe the job to workers via the relayers. This metadata may include additional URLs to describe other aspects of the job being defined (e.g. image annotation will have to include the URL of the image to be annotated).
 2. The job metadata is then stored on [IPFS](https://ipfs.io) and the resultant hash is recorded.
 3. The requester must then create an asset that represents this job. The IPFS hash is included as the memo of the create transaction.
-<!-- 4. This job asset is then offered on the DEX at a $DALA price. This means that workers have to stake funds to participate. This is a preventative measure against bad actors that may want to lock up all jobs where supply is limited. -->
 
 ####Share Job<div id="kazi-specification-share-job">
 ![](images/kazi-share-job.png)
 
 Signed job offers need to be distributed to relayers so that they can be offered to interested workers. The actual mechanics of sharing this information is not defined by the protocol, however, the required outputs of the operation are.
 1. The requester must create an escrow account with the relayer with equally weighted signing power between them. 
-
-
-1. The requester will create an escrow account with both relayer and requester as signers, equally weighted.
 2. The requester will create a recovery transaction to close and merge the account. This transaction must be signed by the relayer. The requester will keep this transaction securely and it is to be used if the relayer no longer signs payment transactions or the requester would like to stop offering this job with this relayer and is a preventative measure to ensure funds are not locked up and inaccessible.
-3. 
+3. The requester must send sufficient funds to the escrow account (e.g. if the requester has 300 jobs at 10 $DALA each and has agreed to pay the relayer 1% fee, then the requester must send 3030 $DALA to the account).
+4. The relayer is now incentivised to offer these jobs to workers on their dApp.
 
 ####Work<div id="kazi-specification-work">
+![](images/kazi-work.png)
 
-####Review<div id="kazi-specification-review">
-
-####Get Paid<div id="kazi-specification-get-paid">
-
+1. Workers interact with relayer dApps to complete jobs. Because the fee models incentivise the relayer, the relayers with the best experience *should* win the most workers. There is limited financial incentive that can be offered to workers to use different relayers as the fee is paid by the requester, however, in order for a worker to claim a job they do need to purchase a job asset. The price of these assets is determined by the requester and can be dependent on a number of external factors relevant to the requester. In the dApp, this cost would be for the worker and can act as a kind of staking mechanism to prevent bad actors that may want to lock up all the jobs. There is definitely opportunity here for relayers to reduce these costs for the workers and is probably a race to zero.
+2. Once a worker has acquired a job asset, they must complete the task as defined. 
+3. When the job is complete, the worker needs to prepare the job result payload. This must adhere to the [job result schema](https://github.com/GetDala/kazi/blob/master/schemas/job-result.js) and includes the job result as an encrypted payload, and an encrypted hash to be used for signing. This must be uploaded to IPFS and the hash recorded.
+4. The worker sends the job asset to the requester-relayer escrow account with the IPFS hash as a memo.
+5. The requester monitors this account and when this payment is seen, creates a new escrow account with selected reviewers (reviewer selection is an opinionated process that the protocol remains agnostic of), relayer, and the worker provided hash as signers (the hash must be retrieved from IPFS).
+6. The requester must create a time-locked recovery transaction to close and merge this account should sufficient approval not be received in time.
+7. The requester must now a transaction that must:
+    1. Send payment to worker.
+    2. Send payment to relayer.
+    3. Send payment to reviewer escrow.
+8. This transaction should be signed by the requester and stored on IPFS.
+9. The relayer needs to be made aware of this transaction. The relayer will confirm the transaction is correct and sign it. This newly signed transaction will be shared with the worker.
+9. The worker must now sign the job using the preimage that was used to encrypt the payload in step 3. This is now public and reviewers and requester will now have access to the secret used to encrypt the payload.
+10. The newly signed transaction is now broadcast to the reviewers. They now have the ability to check the result of the job and if they approve of the content, can sign the transaction.
+11. When a sufficient threshold has been reached, the transaction is broadcast on-chain and all parties receive payment.
+    
 ###Use Cases<div id="kazi-use-cases">
+* Surveys
+* Image annotation and classification
+* Secret shopper
+* Information Gathering
+* SEO research
 
 ###Attacks and Limitations<div id="kazi-attacks-limitations">
+* Requester and reviewers working together
+* Worker and reviewers working together
 
 ##Kopa
