@@ -110,6 +110,27 @@ Dala will initially only support atomic swaps between Dala ERC20 tokens on Ether
 ### Architecture<div id="toa-architecture">
 ![](images/dala-toa.png)
 
+## Sura
+> Sura means *identity* in Swahili
+
+### Introduction<div id="sura-introduction">
+Sura is decentralized and trustless self-sovereign identity.
+
+*Notes*
+* User creates new account to manage identity
+* User can *approve* an app by adding it as a signer to the account. Importantly, the signer weights need to be changed so that user weight is always *number_of_ signers + 1*
+* Thresholds would have to be changed:
+    * low security: *number_of_signers + 1*
+    * medium and high security: *number_of_signers + 2*
+* App can then make an attestation against the user using *manage data* - this transaction would have to be signed by the app and accepted by the user by them signing it too.
+* To prove ownership of the identity, the user would have to create and sign a low security transaction (e.g. bump sequence).
+
+## Sifa
+> Sifa means *reputation* in Swahili
+
+### Introduction<div id="sifa-introduction">
+Sifa is decentralized and trustless reputation management.
+
 ## Soko
 > Soko means *market* in Swahili.
 
@@ -119,47 +140,47 @@ Soko is a decentralized and trustless marketplace for products and services.
 ### Architecture<div id="soko-architecture">
 The Soko protocol defines a procedure for defining, administering, buying, and selling products and services using a set of smart contracts and standardized interfaces. Soko has been heavily inspired in design by the 0x decentralized exchange protocol and the Dharma decentralized lending protocol.
 
-####End Users<div id="soko-architecture-end-users">
+#### End Users<div id="soko-architecture-end-users">
 
 The end users of Soko are the entities looking to purchase or provide services. These entities can be people, corporations, contracts, or systems and are separated into two categories:
 1. **Provider -** a party in a market transaction who is providing a service or product for a pre-determined and cryptographically agreed to amount.
 2. **Consumer -** a party in a marketplace transaction who is purchasing a service or product for the specified amount. 
 
-####Intermediaries<div id="soko-architecture-intermediaries">
+#### Intermediaries<div id="soko-architecture-intermediaries">
 
 Intermediaries are entities who provide additional services to the protocol. There are two categories of intermediaries:
 1. **Relayers -** relayers in Soko aggregate signed marketplace offers, and for an agreed fee, host the messages in a centralized marketplace and provide consumers the ability to purchase the services,. Relayers should further commit to offering the products and services with the highest reputation and have freedom to exclude services whose service delivery is questionable or non-existent based on consumer's attestations. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry)) 
 2. **Administrators -** administrators in Soko allow the registration of providers and the creation of signed marketplace offers. Administrators provide the ability for providers to capture product information, create a custom asset representing the product, and sign and store additional metadata in IPFS - the hash of which is attached to the transaction that creates the asset. Soko will provide an administrator dApp on launch. To facilitate administrator discovery, a list of community approved administrators will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry)) 
 
-####Reputation<div id="soko-architecture-reputation">
+#### Reputation<div id="soko-architecture-reputation">
 
 The reputation score is used to indicate relative reliability of consumers, providers, and relayers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol.
 
-####Staking<div id="soko-architecture-staking">
+#### Staking<div id="soko-architecture-staking">
 
 Providers are required to stake $DALA before they can participate in the market. Staking takes the form of purchasing a $SOKOPROVIDER from the DEX.
 
 ### Specification<div id="soko-specification">
-####Overview<div id="soko-specification-overview">
+#### Overview<div id="soko-specification-overview">
 
 Soko will initially be built on the Stellar blockchain. The primary reason for this is that Soko will provide a high-throughput market and the fees should be as low as possible and the transaction speed as fast as possible to facilitate these purchases. There is a worthy sacrifice of the turing-completeness of Ethereum for the speed and cost of Stellar, especially given that the market can be easily defined as sets of atomic operations that play very well with the smart contracting capability of Stellar.
 
 [IPFS](https://ipfs.io) will also be used extensively to store additional metadata about products that cannot be stored on-chain.
 
-####Register as Provider<div id="soko-specification-register-provider">
+#### Register as Provider<div id="soko-specification-register-provider">
 ![](images/soko-register-provider.png)
 
 1. To register as a provider, a provider asset ($SOKOPROVIDER) must be purchased. These assets are issued by Soko and will have a price in $DALA. Soko will offer $SOKOPROVIDER on the DEX.  
 2. The provider must hold the asset at all times and this acts as a public indication that an account can provide products and has staked sufficient $DALA. 
 
-####Create Product<div id="soko-specification-create-product">
+#### Create Product<div id="soko-specification-create-product">
 ![](images/soko-create-product.png)
 
 1. Providers must first create the metadata that represents the new product. This product metadata should adhere to the [product schema](https://github.com/GetDala/soko/blob/master/schemas/product.js) and provides sufficient information to describe product as well as external assets to display the product to consumers via the relayers. This metadata may also include additional service URLs to validate or verify information provided by the relayer (e.g. the number of an electricity meter).
 2. The product metadata is then stored on [IPFS](https://ipfs.io) and the resultant hash is recorded.
 3. The provider creates a new asset representing the product. The IPFS hash is included as the memo of the create transaction.
 
-####Purchase Product<div id="soko-specification-purchase-product">
+#### Purchase Product<div id="soko-specification-purchase-product">
 ![](images/soko-product-purchase.png)
 
 1. The consumer selects the product they wish to purchase using their chosen relayer.
@@ -188,15 +209,15 @@ Soko will initially be built on the Stellar blockchain. The primary reason for t
 7. The provider then signs this transaction and stores the XDR in IPFS for signing by the relayer. 
 8. The relayer signs the transaction if they are satisfied with the content.
 
-####Reviews<div id="soko-specification-reviews">
+#### Reviews<div id="soko-specification-reviews">
 * Could negative review assets be sent to providers account?
 * How to stop them trading?
 * What about the provider asset is fungible and an offer is immediately created when the provider is created?
 * Provider asset is unique per provider?
 * Give this some more thought.
 
-###Use Cases<div id="soko-use-cases">
-####Digital Products<div id="soko-digital-vas">
+### Use Cases<div id="soko-use-cases">
+#### Digital Products<div id="soko-digital-vas">
 * Airtime
 * Data
 * Electricity
@@ -204,16 +225,16 @@ Soko will initially be built on the Stellar blockchain. The primary reason for t
 * Taxes
 * School fees
 * Parametric insurance
-####Physical Products<div id="soko-physical-goods">
+#### Physical Products<div id="soko-physical-goods">
 * Literally anything
 
-###Attacks and Limitations<div id="soko-attacks-limitations">
+### Attacks and Limitations<div id="soko-attacks-limitations">
 * Relayer and provider working together 
 * Relayer and consumer working together
 * Trustworthy provider goes rogue
 * Mistakes
 
-##Kazi
+## Kazi
 > Kazi means *work* in Swahili.
 
 ### Introduction<div id="kazi-introduction">
@@ -222,42 +243,42 @@ Kazi is a decentralized and trustless marketplace for microjobs.
 ### Architecture<div id="kazi-architecture">
 The Kazi protocol defines a procedure for defining, administering, and fulfilling microjobs using a set of smart contracts and standardized interfaces. Kazi has been heavily inspired in design by the 0x decentralized exchange protocol and the Dharma decentralized lending protocol.
 
-####End Users<div id="kazi-architecture-end-users">
+#### End Users<div id="kazi-architecture-end-users">
 End users of Kazi are the entities looking to have work done or fulfill work. These entities can be people, corporations, contracts, or systems and can be separated into two categories:
 1. **Requester -** an entity that requires work to be completed. Requesters create job offers that are cryptographically signed and have committed sufficient budget to the escrow account for distribution to workers who fulfill the required specification.
 2. **Worker -** an entity that fulfills the required work and expects to be paid the offered value on successful completion of the task. Successful completion is determined by the cryptographic verification by nominated reviewers.
 
-####Intermediaries<div id="kazi-architecture-intermediaries">
+#### Intermediaries<div id="kazi-architecture-intermediaries">
 
 Intermediaries are entities who provide additional services to the protocol. There are three categories of intermediaries:
 1. **Relayers -** relayers in Kazi aggregate signed job requests, and for an agreed fee, host the requests in a centralized marketplace and provide workers the ability to fulfill the jobs and reviewers the ability to verify the completed work. To facilitate relayer discovery, a list of community approved relayers will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry))
 2. **Reviewers -** a trusted entity or entities that collect market-determined fees for ensuring that workers fulfill the request that they have committed to. Reviewers may be people, contracts, or systems but commit to verifying the authenticity of a cryptographically signed confirmation from a worker that the job has been completed as requested. The nature of this verification will depend on the job and the available mechanisms for verification. Importantly, *n* reviewers may be determined necessary to ensure the release of funds from escrow to a worker.
 3. **Administrators -** administrators in Kazi allow the registration of requesters and reviewers and allow the creation of signed job offers. They provide the ability for requesters to capture job information, create a custom asset representing the job, and sign and store additional metadata in IPFS - the hash of which is attached to the transaction that creates the  asset. To facilitate administrator discovery, a list of community approved administrators will be maintained on Github (similar to the [0x relayer registry](https://github.com/0xProject/0x-relayer-registry))
 
-####Reputation<div id="kazi-architecture-reputation">
+#### Reputation<div id="kazi-architecture-reputation">
 The reputation score is used to indicate reliability and quality of requesters, workers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol.
 
-###Specification<div id="kazi-specification">
-####Overview<div id="kazi-specification-overview">
+### Specification<div id="kazi-specification">
+#### Overview<div id="kazi-specification-overview">
 
 Kazi will initially be built on the Stellar blockchain. This facilitates the fast and cheap payments necessary to reward workers and reviewers appropriately, as well as ensuring that necessary on-chain activity is affordable for all parties involved.
 
 [IPFS](https://ipfs.io) will be used extensively to store information about jobs as well as the worker responses.
 
-####Register Requester<div id="kazi-specification-register-requester">
+#### Register Requester<div id="kazi-specification-register-requester">
 ![](images/kazi-register-requester.png)
 
 1. To register as a requester, a requester asset ($KAZIREQUESTER) must be purchased. These assets are issued by Kazi and will have a price in $DALA. Kazi will offer $KAZIREQUESTER on the DEX.
 2. The requester must hold the asset at all times and this acts as a public indication that an account can request work and has staked $DALA.
 
-####Create Job<div id="kazi-specification-create-job">
+#### Create Job<div id="kazi-specification-create-job">
 ![](images/kazi-create-job.png)
 
 1. The requester creates the job definition using a reliable administrator dApp. This metadata should adhere to the [job schema](https://github.com/GetDala/kazi/blob/master/schemas/job.js) and provide sufficient information to describe the job to workers via the relayers. This metadata may include additional URLs to describe other aspects of the job being defined (e.g. image annotation will have to include the URL of the image to be annotated).
 2. The job metadata is then stored on [IPFS](https://ipfs.io) and the resultant hash is recorded.
 3. The requester must then create an asset that represents this job. The IPFS hash is included as the memo of the create transaction.
 
-####Share Job<div id="kazi-specification-share-job">
+#### Share Job<div id="kazi-specification-share-job">
 ![](images/kazi-share-job.png)
 
 Signed job offers need to be distributed to relayers so that they can be offered to interested workers. The actual mechanics of sharing this information is not defined by the protocol, however, the required outputs of the operation are.
@@ -266,7 +287,7 @@ Signed job offers need to be distributed to relayers so that they can be offered
 3. The requester must send sufficient funds to the escrow account (e.g. if the requester has 300 jobs at 10 $DALA each and has agreed to pay the relayer 1% fee, then the requester must send 3030 $DALA to the account).
 4. The relayer is now incentivised to offer these jobs to workers on their dApp.
 
-####Work<div id="kazi-specification-work">
+#### Work<div id="kazi-specification-work">
 ![](images/kazi-work.png)
 
 1. Workers interact with relayer dApps to complete jobs. Because the fee models incentivise the relayer, the relayers with the best experience *should* win the most workers. There is limited financial incentive that can be offered to workers to use different relayers as the fee is paid by the requester, however, in order for a worker to claim a job they do need to purchase a job asset. The price of these assets is determined by the requester and can be dependent on a number of external factors relevant to the requester. In the dApp, this cost would be for the worker and can act as a kind of staking mechanism to prevent bad actors that may want to lock up all the jobs. There is definitely opportunity here for relayers to reduce these costs for the workers and is probably a race to zero.
@@ -275,25 +296,30 @@ Signed job offers need to be distributed to relayers so that they can be offered
 4. The worker sends the job asset to the requester-relayer escrow account with the IPFS hash as a memo.
 5. The requester monitors this account and when this payment is seen, creates a new escrow account with selected reviewers (reviewer selection is an opinionated process that the protocol remains agnostic of), relayer, and the worker provided hash as signers (the hash must be retrieved from IPFS).
 6. The requester must create a time-locked recovery transaction to close and merge this account should sufficient approval not be received in time.
-7. The requester must now a transaction that must:
-    1. Send payment to worker.
-    2. Send payment to relayer.
-    3. Send payment to reviewer escrow.
-8. This transaction should be signed by the requester and stored on IPFS.
-9. The relayer needs to be made aware of this transaction. The relayer will confirm the transaction is correct and sign it. This newly signed transaction will be shared with the worker.
+7. The requester must now create two transactions. 
+    1. A *job accepted* transaction that must:
+        1. Send payment to worker.
+        2. Send payment to relayer.
+        3. Send payment to reviewer escrow.
+    2. A *job declined* transaction that must:
+        1. Send payment to relayer.
+        2. Send payment to reviewer escrow.
+        3. Close and merge account to requester.
+8. These transactions should be signed by the requester and stored on IPFS.
+9. The relayer needs to be made aware of these transactions. The relayer will confirm the transactions are correct and sign them. The *job accepted* transaction will be shared with the worker.
 9. The worker must now sign the job using the preimage that was used to encrypt the payload in step 3. This is now public and reviewers and requester will now have access to the secret used to encrypt the payload.
-10. The newly signed transaction is now broadcast to the reviewers. They now have the ability to check the result of the job and if they approve of the content, can sign the transaction.
-11. When a sufficient threshold has been reached, the transaction is broadcast on-chain and all parties receive payment.
+10. The newly signed transaction is now broadcast to the reviewers along with the *job declined* transaction. They now have the ability to check the result of the job and if they approve of the content, can sign the *job accepted* transaction; if they don't then they can sign the *job declined* transaction.
+11. When a sufficient threshold has been reached, the transaction is broadcast on-chain and all parties receive payment. The *job accepted* and *job declined* transactions will have the same sequence number, so only one can be executed. These thresholds will be determined by the requester and the first one that is reached will be the successful one.
     
-###Use Cases<div id="kazi-use-cases">
+### Use Cases<div id="kazi-use-cases">
 * Surveys
 * Image annotation and classification
 * Secret shopper
 * Information Gathering
 * SEO research
 
-###Attacks and Limitations<div id="kazi-attacks-limitations">
+### Attacks and Limitations<div id="kazi-attacks-limitations">
 * Requester and reviewers working together
 * Worker and reviewers working together
 
-##Kopa
+## Kopa
