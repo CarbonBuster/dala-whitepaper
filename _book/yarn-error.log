@@ -1,0 +1,50 @@
+Arguments: 
+  /Users/rossmcewan/.nvm/versions/node/v6.10.2/bin/node /Users/rossmcewan/.nvm/versions/node/v6.10.2/bin/yarn run deploy
+
+PATH: 
+  /Users/rossmcewan/.nvm/versions/node/v6.10.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  6.10.2
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/rossmcewan/Source/Dala/dala-whitepaper/package.json: Unexpected string in JSON at position 1011
+      at Object.parse (native)
+      at /Users/rossmcewan/.nvm/versions/node/v6.10.2/lib/node_modules/yarn/lib/cli.js:1130:59
+      at next (native)
+      at step (/Users/rossmcewan/.nvm/versions/node/v6.10.2/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /Users/rossmcewan/.nvm/versions/node/v6.10.2/lib/node_modules/yarn/lib/cli.js:109:13
+
+npm manifest: 
+  {
+    "name": "dala-whitepaper",
+    "version": "1.0.0",
+    "description": "<center>     <h1 id=\"dala\">Dala: A decentralized financial ecosystem for emerging markets</h1>     <h2 id=\"dala-abstract\">Abstract</h2> </center> <div style=\"text-align: justify; width: 600px; margin: 0 auto;\"> Dala is a cryptocurrency that can be used for payments of any size, nearly instantaneously, and at almost zero cost. It’s very nature of being a cryptocurrency means it is borderless, and thus facilitates remittance transactions by its very nature. But Dala is more than that. It is the cornerstone of a financial services platform that has been designed to help those in most need of it - the financially excluded. This platform is global; bridging the divide between investors and consumers; creating opportunities for philanthropists, lenders, insurers, and most importantly, the financially excluded consumers. </div>",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+      "deploy": "aws s3 sync _book/ s3://dala-whitepaper --profile dalaprimary"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/GetDala/dala-whitepaper.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/GetDala/dala-whitepaper/issues"
+    },
+    "homepage": "https://github.com/GetDala/dala-whitepaper#readme"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
