@@ -1,6 +1,6 @@
 # Summary
 
-* [Dala White Paper](README.md#dala)
+* [Dala](README.md#dala)
     * [Abstract](README.md#dala-abstract)
     * [Introduction](README.md#dala-introduction)
     * [Stellar](README.md#dala-stellar)
@@ -53,3 +53,4 @@
     * [Use Cases](README.md#kazi-use-cases)
     * [Attacks and Limitations](README.md#kazi-attacks-limitations)
 * [Kopa](README.md#kopa)
+    * [Introduction](README.md#kopa-introduction)

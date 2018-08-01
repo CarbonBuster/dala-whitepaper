@@ -156,6 +156,12 @@ Sura is decentralized and trustless self-sovereign identity.
 
 *Notes*
 
+* Must adhere to the [w3c Decentralized Identifiers specification](https://w3c-ccg.github.io/did-spec/)
+
+* Create [stellar-did-resolver](https://github.com/GetDala/stellar-did-resolver)
+
+* Implement *ed25519* algorithms in [did-jwt](https://github.com/GetDala/did-jwt) and [did-resolver](https://github.com/GetDala/did-resolver)
+
 * User creates new account to manage identity
 
 * User can *approve* an app by adding it as a signer to the account. Importantly, the signer weights need to be changed so that user weight is always *number_of_ signers + 1*
@@ -168,7 +174,9 @@ Sura is decentralized and trustless self-sovereign identity.
 
 * App can then make an attestation against the user using *manage data.* - tThis transaction would have to be signed by the app and accepted by the user by them signing it too.
 
-* To prove ownership of the identity, the user would have to create and sign a low security transaction (e.g. bump sequence).
+* To prove ownership of the identity, the user would have to create and sign a low security transaction (e.g. bump sequence) or look at asymmetric encryption using Stellar public keys and JWTs
+
+* Could uPort be used? Most operations are off-chain - Dala can attest to the wallet address and Wala can attest to some other information about the user
 
 * * *
 
@@ -180,6 +188,14 @@ Sura is decentralized and trustless self-sovereign identity.
 ### **Introduction**<div id="sifa-introduction">
 
 Sifa is decentralized and trustless reputation management.
+
+*Notes*
+
+* Sifa reputation will be stored as attestations against a DID (either on uPort or Sura)
+
+* Anyone can then look up the reputation of an address - is it always self-sovereign or is there opportunity to create public information?
+
+* They can verify that the claims were made by a certified party based on the signature
 
 * * *
 
@@ -223,7 +239,7 @@ Intermediaries are entities who provide additional services to the protocol. The
 
 #### **Reputation**<div id="soko-architecture-reputation">
 
-The reputation score is used to indicate relative reliability of consumers, providers, and relayers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol.
+The reputation score is used to indicate relative reliability of consumers, providers, and relayers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol. Reputation will be managed by [Sifa](README.md#sifa).
 
 #### **Staking**<div id="soko-architecture-staking">
 
@@ -388,7 +404,7 @@ Intermediaries are entities who provide additional services to the protocol. The
 
 #### **Reputation**<div id="kazi-architecture-reputation">
 
-The reputation score is used to indicate reliability and quality of requesters, workers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol.
+The reputation score is used to indicate reliability and quality of requesters, workers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol. Reputation will be managed by [Sifa](README.md#sifa).
 
 ### **Specification**<div id="kazi-specification">
 
@@ -398,7 +414,7 @@ Kazi will initially be built on the Stellar blockchain. This facilitates the fas
 
 [IPFS](https://ipfs.io/) will be used extensively to store information about jobs as well as the worker responses.
 
-#### **Register Requester**
+#### **Register Requester**<div id="kazi-specification-register-requester">
 
 ![](images/kazi-register-requester.png)
 

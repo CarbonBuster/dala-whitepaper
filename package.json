@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "aws s3 sync _book/ s3://dala-whitepaper --profile dalaprimary"
+    "deploy-white": "aws s3 sync _book/ s3://whitepaper.dala.network --profile dalaprimary",
+    "deploy-yellow": "aws s3 sync _book/ s3://yellowpaper.dala.network --profile dalaprimary"
   },
   "repository": {
     "type": "git",

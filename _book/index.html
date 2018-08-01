@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Dala White Paper · GitBook</title>
+        <title>Dala · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -92,7 +92,7 @@
                 <a href="./#dala">
             
                     
-                    Dala White Paper
+                    Dala
             
                 </a>
             
@@ -858,6 +858,25 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="./">
+            
+                <a href="./#kopa-introduction">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
 
@@ -890,7 +909,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >Dala White Paper</a>
+        <a href="." >Dala</a>
     </h1>
 </div>
 
@@ -1031,6 +1050,12 @@ Dala is a cryptocurrency that can be used for payments of any size, rapidly, and
 <p>Sura is decentralized and trustless self-sovereign identity.</p>
 <p><em>Notes</em></p>
 <ul>
+<li><p>Must adhere to the <a href="https://w3c-ccg.github.io/did-spec/" target="_blank">w3c Decentralized Identifiers specification</a></p>
+</li>
+<li><p>Create <a href="https://github.com/GetDala/stellar-did-resolver" target="_blank">stellar-did-resolver</a></p>
+</li>
+<li><p>Implement <em>ed25519</em> algorithms in <a href="https://github.com/GetDala/did-jwt" target="_blank">did-jwt</a> and <a href="https://github.com/GetDala/did-resolver" target="_blank">did-resolver</a></p>
+</li>
 <li><p>User creates new account to manage identity</p>
 </li>
 <li><p>User can <em>approve</em> an app by adding it as a signer to the account. Importantly, the signer weights need to be changed so that user weight is always <em>number<em>of</em> signers + 1</em></p>
@@ -1045,7 +1070,9 @@ Dala is a cryptocurrency that can be used for payments of any size, rapidly, and
 </li>
 <li><p>App can then make an attestation against the user using <em>manage data.</em> - tThis transaction would have to be signed by the app and accepted by the user by them signing it too.</p>
 </li>
-<li><p>To prove ownership of the identity, the user would have to create and sign a low security transaction (e.g. bump sequence).</p>
+<li><p>To prove ownership of the identity, the user would have to create and sign a low security transaction (e.g. bump sequence) or look at asymmetric encryption using Stellar public keys and JWTs</p>
+</li>
+<li><p>Could uPort be used? Most operations are off-chain - Dala can attest to the wallet address and Wala can attest to some other information about the user</p>
 </li>
 </ul>
 <hr>
@@ -1055,6 +1082,15 @@ Dala is a cryptocurrency that can be used for payments of any size, rapidly, and
 </blockquote>
 <h3 id="introduction"><strong>Introduction</strong><div id="sifa-introduction"></div></h3>
 <p>Sifa is decentralized and trustless reputation management.</p>
+<p><em>Notes</em></p>
+<ul>
+<li><p>Sifa reputation will be stored as attestations against a DID (either on uPort or Sura)</p>
+</li>
+<li><p>Anyone can then look up the reputation of an address - is it always self-sovereign or is there opportunity to create public information?</p>
+</li>
+<li><p>They can verify that the claims were made by a certified party based on the signature</p>
+</li>
+</ul>
 <hr>
 <h2 id="tuzo"><strong>Tuzo</strong></h2>
 <blockquote>
@@ -1088,7 +1124,7 @@ Dala is a cryptocurrency that can be used for payments of any size, rapidly, and
 </li>
 </ol>
 <h4 id="reputation"><strong>Reputation</strong><div id="soko-architecture-reputation"></div></h4>
-<p>The reputation score is used to indicate relative reliability of consumers, providers, and relayers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol.</p>
+<p>The reputation score is used to indicate relative reliability of consumers, providers, and relayers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol. Reputation will be managed by <a href="./#sifa">Sifa</a>.</p>
 <h4 id="staking"><strong>Staking</strong><div id="soko-architecture-staking"></div></h4>
 <p>Providers are required to stake $DALA before they can participate in the market. Staking takes the form of purchasing a $SOKOPROVIDER from the DEX.</p>
 <h3 id="specification"><strong>Specification</strong><div id="soko-specification"></div></h3>
@@ -1249,12 +1285,12 @@ Dala is a cryptocurrency that can be used for payments of any size, rapidly, and
 </li>
 </ol>
 <h4 id="reputation"><strong>Reputation</strong><div id="kazi-architecture-reputation"></div></h4>
-<p>The reputation score is used to indicate reliability and quality of requesters, workers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol.</p>
+<p>The reputation score is used to indicate reliability and quality of requesters, workers, and reviewers. Reputation votes are cryptographically signed attestations of confidence or distrust in the ability of an entity to fulfill their role as defined by the protocol. Reputation will be managed by <a href="./#sifa">Sifa</a>.</p>
 <h3 id="specification"><strong>Specification</strong><div id="kazi-specification"></div></h3>
 <h4 id="overview"><strong>Overview</strong><div id="kazi-specification-overview"></div></h4>
 <p>Kazi will initially be built on the Stellar blockchain. This facilitates the fast and cheap payments necessary to reward workers and reviewers appropriately, as well as ensuring that necessary on-chain activity is affordable for all parties involved.</p>
 <p><a href="https://ipfs.io/" target="_blank">IPFS</a> will be used extensively to store information about jobs as well as the worker responses.</p>
-<h4 id="register-requester"><strong>Register Requester</strong></h4>
+<h4 id="register-requester"><strong>Register Requester</strong><div id="kazi-specification-register-requester"></div></h4>
 <p><img src="images/kazi-register-requester.png" alt=""></p>
 <ol>
 <li><p>To register as a requester, a requester asset ($KAZIREQUESTER) must be purchased. These assets are issued by Kazi and will have a price in $DALA. Kazi will offer $KAZIREQUESTER on the DEX.</p>
@@ -1419,7 +1455,7 @@ Dala is a cryptocurrency that can be used for payments of any size, rapidly, and
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Dala White Paper","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-30T08:53:25.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-30T07:32:26.833Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Dala","level":"1.1","depth":1,"next":{"title":"Abstract","level":"1.1.1","depth":2,"anchor":"#dala-abstract","path":"README.md","ref":"README.md#dala-abstract","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-07-30T14:56:16.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-30T14:56:59.736Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
